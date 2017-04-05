@@ -7,7 +7,7 @@
     <ProjectGuid>{C5049353-9173-46F6-A293-2B6CDCAE03C1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>AutoPDF.CLI</RootNamespace>
-    <AssemblyName>AutoPDF.CLI</AssemblyName>
+    <AssemblyName>AutoPDF</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,9 +49,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoPDF\AutoPDF.csproj">
+    <ProjectReference Include="..\AutoPDF.Core\AutoPDF.Core.csproj">
       <Project>{72b79688-2e01-414d-b02a-f60cae78e03b}</Project>
-      <Name>AutoPDF</Name>
+      <Name>AutoPDF.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
