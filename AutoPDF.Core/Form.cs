@@ -54,7 +54,7 @@ namespace AutoPDF.Core
             }
         }
 
-        private string[] GetCheckboxStateValues(string fieldName)
+        public string[] GetCheckboxStateValues(string fieldName)
         {
             using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(PdfTemplateFile.FullName)))
             {
