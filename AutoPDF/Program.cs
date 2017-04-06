@@ -59,6 +59,7 @@ namespace AutoPDF
                         File.Delete(destination);
                     }
                     ZipFile.CreateFromDirectory(tempDir, destination, CompressionLevel.Optimal, false);
+                    Directory.Delete(tempDir, true);
                 }
             }
         }
