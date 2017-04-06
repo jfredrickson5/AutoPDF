@@ -54,6 +54,10 @@ namespace AutoPDF
 
                 if (useZipFile)
                 {
+                    if (File.Exists(destination))
+                    {
+                        File.Delete(destination);
+                    }
                     ZipFile.CreateFromDirectory(tempDir, destination, CompressionLevel.Optimal, false);
                 }
             }
