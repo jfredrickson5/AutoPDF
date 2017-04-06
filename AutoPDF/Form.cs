@@ -1,4 +1,5 @@
 ﻿using iText.Forms;
+using iText.IO.Log;
 using iText.Kernel.Pdf;
 using System.Collections.Generic;
 using System.IO;
@@ -8,32 +9,22 @@ namespace AutoPDF
     public class Form
     {
         public IDictionary<string, object> Fields { get; set; } = new Dictionary<string, object>();
-        public FileInfo PdfTemplateFile { get; set; }
+        public string PdfTemplateFile { get; set; }
 
         public Form(string pdfTemplateFile)
         {
-            PdfTemplateFile = new FileInfo(pdfTemplateFile);
-        }
-
-        public Form(FileInfo pdfTemplateFile)
-        {
             PdfTemplateFile = pdfTemplateFile;
         }
-
+        
         public Form(string pdfTemplateFile, IDictionary<string, object> fields) : this(pdfTemplateFile)
         {
             Fields = fields;
         }
-
-        public Form(FileInfo pdfTemplateFile, IDictionary<string, object> fields) : this(pdfTemplateFile)
-        {
-            Fields = fields;
-        }
-
+        
         public MemoryStream GetStream()
         {
             var ms = new MemoryStream();
-            using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(PdfTemplateFile.FullName), new PdfWriter(ms)))
+            using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(PdfTemplateFile), new PdfWriter(ms)))
             {
                 var pdfForm = PdfAcroForm.GetAcroForm(pdfDocument, false);
                 foreach (var field in Fields)
@@ -56,7 +47,7 @@ namespace AutoPDF
 
         public string[] GetCheckboxStateValues(string fieldName)
         {
-            using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(PdfTemplateFile.FullName)))
+            using (PdfDocument pdfDocument = new PdfDocument(new PdfReader(PdfTemplateFile)))
             {
                 var form = PdfAcroForm.GetAcroForm(pdfDocument, false);
                 var field = form.GetFormFields()[fieldName];
