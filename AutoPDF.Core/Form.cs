@@ -7,7 +7,7 @@ namespace AutoPDF.Core
 {
     public class Form
     {
-        public IDictionary<string, object> Fields { get; set; }
+        public IDictionary<string, object> Fields { get; set; } = new Dictionary<string, object>();
         public FileInfo PdfTemplateFile { get; set; }
 
         public Form(string pdfTemplateFile)
