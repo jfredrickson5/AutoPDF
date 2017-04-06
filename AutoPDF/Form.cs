@@ -3,7 +3,7 @@ using iText.Kernel.Pdf;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AutoPDF.Core
+namespace AutoPDF
 {
     public class Form
     {
