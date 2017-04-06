@@ -14,6 +14,7 @@ namespace AutoPDF
         public Form(string pdfTemplateFile)
         {
             PdfTemplateFile = pdfTemplateFile;
+            LoggerFactory.BindFactory(new NoOpLoggerFactory());
         }
         
         public Form(string pdfTemplateFile, IDictionary<string, object> fields) : this(pdfTemplateFile)
