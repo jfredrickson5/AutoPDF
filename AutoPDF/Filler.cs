@@ -45,8 +45,8 @@ namespace AutoPDF
                     var form = new Form(TemplateFile);
                     foreach (var fieldName in FieldNames)
                     {
-                        var fieldValue = csv.GetField(fieldName);
-                        form.Fields.Add(fieldName, fieldValue);
+                        var parsedValue = ParseValue(fieldName, csv.GetField(fieldName));
+                        form.Fields.Add(fieldName, parsedValue);
                     }
                     using (var file = new FileStream(GenerateFilePath(OutputDirectory, NumRecords, index), FileMode.Create))
                     {
@@ -56,6 +56,11 @@ namespace AutoPDF
             }
         }
 
+        private string ParseValue(string fieldName, string fieldValue)
+        {
+            return fieldValue;
+        }
+        
         private string GenerateFilePath(string directory, int numRecords, int index)
         {
             var format = new String('0', numRecords.ToString().Length);
