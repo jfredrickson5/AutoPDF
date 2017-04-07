@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 
 namespace AutoPDF
@@ -7,28 +8,38 @@ namespace AutoPDF
     {
         static void Main(string[] args)
         {
-            var templateFile = args[0];
-            var inputFile = args[1];
-            var destination = args[2];
-            var useZipFile = destination.EndsWith(".zip");
-            var outputDirectory = destination;
+            var options = new Options();
+            if (!CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                Console.WriteLine(options.Usage());
+                Environment.Exit(1);
+            }
+            var customValidation = options.Validate();
+            if (!customValidation.Valid)
+            {
+                Console.WriteLine(options.Usage());
+                Console.WriteLine("Error: " + customValidation.Message);
+                Environment.Exit(1);
+            }
 
-            if (useZipFile)
+            var outputDirectory = options.Destination;
+
+            if (options.UseZipFile)
             {
                 outputDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
                 Directory.CreateDirectory(outputDirectory);
             }
 
-            var filler = new Filler(templateFile, inputFile, outputDirectory);
+            var filler = new Filler(options.TemplateFile, options.InputFile, outputDirectory, options.Delimiter);
             filler.Fill();
             
-            if (useZipFile)
+            if (options.UseZipFile)
             {
-                if (File.Exists(destination))
+                if (File.Exists(options.Destination))
                 {
-                    File.Delete(destination);
+                    File.Delete(options.Destination);
                 }
-                ZipFile.CreateFromDirectory(outputDirectory, destination, CompressionLevel.Optimal, false);
+                ZipFile.CreateFromDirectory(outputDirectory, options.Destination, CompressionLevel.Optimal, false);
                 Directory.Delete(outputDirectory, true);
             }
         }
