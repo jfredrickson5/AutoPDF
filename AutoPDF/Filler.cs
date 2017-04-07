@@ -7,19 +7,19 @@ namespace AutoPDF
 {
     class Filler
     {
-        private const string InputDelimiter = ":";
-
         public string TemplateFile { get; set; }
         public string InputFile { get; set; }
+        public string InputDelimiter { get; set; }
         public string OutputDirectory { get; set; }
         public int NumRecords { get; private set; }
         public string[] FieldNames { get; private set; }
 
-        public Filler(string templateFile, string inputFile, string outputDirectory)
+        public Filler(string templateFile, string inputFile, string outputDirectory, string inputDelimiter = ",")
         {
             TemplateFile = templateFile;
             InputFile = inputFile;
             OutputDirectory = outputDirectory;
+            InputDelimiter = inputDelimiter;
 
             using (var textReader = File.OpenText(InputFile))
             {
@@ -55,7 +55,7 @@ namespace AutoPDF
                 }
             }
         }
-        
+
         private string GenerateFilePath(string directory, int numRecords, int index)
         {
             var format = new String('0', numRecords.ToString().Length);
