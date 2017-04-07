@@ -15,13 +15,13 @@ namespace AutoPDF
         public int NumRecords { get; private set; }
         public string[] FieldNames { get; private set; }
 
-        public Filler(string templateFile, string inputFile, string outputDirectory, string inputDelimiter = ",")
+        public Filler(string templateFile, string inputFile, string outputDirectory)
         {
             TemplateFile = templateFile;
             InputFile = inputFile;
             InputParser = new DefaultInputParser();
             OutputDirectory = outputDirectory;
-            InputDelimiter = inputDelimiter;
+            InputDelimiter = GuessInputDelimiter(InputFile).ToString();
 
             using (var textReader = File.OpenText(InputFile))
             {
@@ -32,6 +32,11 @@ namespace AutoPDF
             }
 
             NumRecords = File.ReadLines(InputFile).Count() - 1;
+        }
+
+        public Filler(string templateFile, string inputFile, string outputDirectory, string inputDelimiter) : this(templateFile, inputFile, outputDirectory)
+        {
+            InputDelimiter = inputDelimiter;
         }
 
         public Filler(string templateFile, string inputFile, string outputDirectory, IInputParser inputParser, string inputDelimiter = ",") : this(templateFile, inputFile, outputDirectory, inputDelimiter)
@@ -68,6 +73,24 @@ namespace AutoPDF
             var format = new String('0', numRecords.ToString().Length);
             var filename = index.ToString(format) + ".pdf";
             return Path.Combine(directory, filename);
+        }
+
+        private char GuessInputDelimiter(string inputFile)
+        {
+            var candidates = new char[] { ',', ':', ';', '\t', '|' };
+            var headerLine = File.ReadLines(inputFile).First();
+            var bestCandidate = candidates[0];
+            var bestCandidateCount = 0;
+            foreach (var candidate in candidates)
+            {
+                var count = headerLine.Count(ch => ch == candidate);
+                if (count > bestCandidateCount)
+                {
+                    bestCandidate = candidate;
+                    bestCandidateCount = count;
+                }
+            }
+            return bestCandidate;
         }
     }
 }

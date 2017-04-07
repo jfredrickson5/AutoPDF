@@ -30,7 +30,9 @@ namespace AutoPDF
                 Directory.CreateDirectory(outputDirectory);
             }
 
-            var filler = new Filler(options.TemplateFile, options.InputFile, outputDirectory, options.Delimiter);
+            var filler = String.IsNullOrEmpty(options.Delimiter) ?
+                new Filler(options.TemplateFile, options.InputFile, outputDirectory) :
+                new Filler(options.TemplateFile, options.InputFile, outputDirectory, options.Delimiter);
             filler.Fill();
             
             if (options.UseZipFile)
