@@ -10,6 +10,7 @@ namespace AutoPDF
         public string TemplateFile { get; set; }
         public string InputFile { get; set; }
         public string InputDelimiter { get; set; }
+        public IInputParser InputParser { get; set; }
         public string OutputDirectory { get; set; }
         public int NumRecords { get; private set; }
         public string[] FieldNames { get; private set; }
@@ -18,6 +19,7 @@ namespace AutoPDF
         {
             TemplateFile = templateFile;
             InputFile = inputFile;
+            InputParser = new DefaultInputParser();
             OutputDirectory = outputDirectory;
             InputDelimiter = inputDelimiter;
 
@@ -31,7 +33,12 @@ namespace AutoPDF
 
             NumRecords = File.ReadLines(InputFile).Count() - 1;
         }
-        
+
+        public Filler(string templateFile, string inputFile, string outputDirectory, IInputParser inputParser, string inputDelimiter = ",") : this(templateFile, inputFile, outputDirectory, inputDelimiter)
+        {
+            InputParser = inputParser;
+        }
+
         public void Fill()
         {
             using (var textReader = File.OpenText(InputFile))
@@ -45,7 +52,7 @@ namespace AutoPDF
                     var form = new Form(TemplateFile);
                     foreach (var fieldName in FieldNames)
                     {
-                        var parsedValue = ParseValue(fieldName, csv.GetField(fieldName));
+                        var parsedValue = InputParser.ParseValue(fieldName, csv.GetField(fieldName));
                         form.Fields.Add(fieldName, parsedValue);
                     }
                     using (var file = new FileStream(GenerateFilePath(OutputDirectory, NumRecords, index), FileMode.Create))
@@ -54,11 +61,6 @@ namespace AutoPDF
                     }
                 }
             }
-        }
-
-        private string ParseValue(string fieldName, string fieldValue)
-        {
-            return fieldValue;
         }
         
         private string GenerateFilePath(string directory, int numRecords, int index)
