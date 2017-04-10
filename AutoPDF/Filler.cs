@@ -20,7 +20,7 @@ namespace AutoPDF
             TemplateFile = templateFile;
             InputFile = inputFile;
             InputParser = new PATSInputParser();
-            FileNameGenerator = new DefaultFileNameGenerator();
+            FileNameGenerator = new PATSFileNameGenerator();
             OutputDirectory = outputDirectory;
             InputDelimiter = GuessInputDelimiter(InputFile).ToString();
 
