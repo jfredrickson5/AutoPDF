@@ -7,9 +7,14 @@
 
         public OptionsValidationResult() { }
 
-        public OptionsValidationResult(bool valid)
+        public OptionsValidationResult(bool valid) : this()
         {
             Valid = valid;
+        }
+
+        public OptionsValidationResult(bool valid, string message) : this(valid)
+        {
+            Message = message;
         }
     }
 }

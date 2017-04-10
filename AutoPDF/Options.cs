@@ -50,34 +50,27 @@ namespace AutoPDF
 
         public OptionsValidationResult Validate()
         {
-            var result = new OptionsValidationResult(true);
             if (String.IsNullOrEmpty(TemplateFile) || String.IsNullOrEmpty(InputFile) || String.IsNullOrEmpty(Destination))
             {
-                result.Valid = false;
-                result.Message = "Missing required parameters";
+                return new OptionsValidationResult(false, "Missing required parameters");
             }
             if (!File.Exists(TemplateFile))
             {
-                result.Valid = false;
-                result.Message = "Template does not exist: " + TemplateFile;
+                return new OptionsValidationResult(false, "Template does not exist: " + TemplateFile);
             }
             if (!File.Exists(InputFile))
             {
-                result.Valid = false;
-                result.Message = "Input file does not exist: " + InputFile;
+                return new OptionsValidationResult(false, "Input file does not exist: " + InputFile);
             }
             if (!UseZipFile && !Directory.Exists(Destination))
             {
-                result.Valid = false;
-                result.Message = "Destination directory does not exist: " + Destination;
+                return new OptionsValidationResult(false, "Destination directory does not exist: " + Destination);
             }
             if (UseZipFile && !Directory.Exists(Path.GetDirectoryName(Destination)))
             {
-                result.Valid = false;
-                result.Message = "Destination directory does not exist: " + Path.GetDirectoryName(Destination);
+                return new OptionsValidationResult(false, "Destination directory does not exist: " + Path.GetDirectoryName(Destination));
             }
-
-            return result;
+            return new OptionsValidationResult(true);
         }
     }
 }
