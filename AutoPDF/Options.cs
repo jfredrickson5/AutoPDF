@@ -39,13 +39,23 @@ namespace AutoPDF
 
         public bool UseZipFile
         {
-            get { return Destination.EndsWith(".zip"); }
+            get {
+                if (String.IsNullOrEmpty(Destination))
+                {
+                    return false;
+                }
+                return Destination.EndsWith(".zip");
+            }
         }
 
         public OptionsValidationResult Validate()
         {
             var result = new OptionsValidationResult(true);
-
+            if (String.IsNullOrEmpty(TemplateFile) || String.IsNullOrEmpty(InputFile) || String.IsNullOrEmpty(Destination))
+            {
+                result.Valid = false;
+                result.Message = "Missing required parameters";
+            }
             if (!File.Exists(TemplateFile))
             {
                 result.Valid = false;
