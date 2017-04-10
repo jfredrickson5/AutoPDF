@@ -11,6 +11,7 @@ namespace AutoPDF
         public string InputFile { get; set; }
         public string InputDelimiter { get; set; }
         public IInputParser InputParser { get; set; }
+        public IFileNameGenerator FileNameGenerator { get; set; }
         public string OutputDirectory { get; set; }
         public int NumRecords { get; private set; }
         public string[] FieldNames { get; private set; }
@@ -20,6 +21,7 @@ namespace AutoPDF
             TemplateFile = templateFile;
             InputFile = inputFile;
             InputParser = new PATSInputParser();
+            FileNameGenerator = new DefaultFileNameGenerator();
             OutputDirectory = outputDirectory;
             InputDelimiter = GuessInputDelimiter(InputFile).ToString();
 
@@ -60,7 +62,8 @@ namespace AutoPDF
                         var parsedValue = InputParser.ParseValue(fieldName, csv.GetField(fieldName));
                         form.Fields.Add(fieldName, parsedValue);
                     }
-                    using (var file = new FileStream(GenerateFilePath(OutputDirectory, NumRecords, index), FileMode.Create))
+                    var fileName = FileNameGenerator.GenerateFileName(form, index, NumRecords, TemplateFile, InputFile);
+                    using (var file = new FileStream(Path.Combine(OutputDirectory, fileName), FileMode.Create))
                     {
                         form.GetStream().WriteTo(file);
                     }
@@ -68,13 +71,6 @@ namespace AutoPDF
             }
         }
         
-        private string GenerateFilePath(string directory, int numRecords, int index)
-        {
-            var format = new String('0', numRecords.ToString().Length);
-            var filename = index.ToString(format) + ".pdf";
-            return Path.Combine(directory, filename);
-        }
-
         private char GuessInputDelimiter(string inputFile)
         {
             var candidates = new char[] { ',', ':', ';', '\t', '|' };
