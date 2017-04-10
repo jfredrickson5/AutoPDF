@@ -37,6 +37,19 @@ namespace AutoPDF
         [ValueOption(2)]
         public string Destination { get; set; }
 
+        public string DestinationDirectory
+        {
+            get
+            {
+                var dir = Path.GetDirectoryName(Destination);
+                if (UseZipFile && String.IsNullOrEmpty(dir))
+                {
+                    dir = Directory.GetCurrentDirectory();
+                }
+                return dir;
+            }
+        }
+
         public bool UseZipFile
         {
             get {
@@ -66,7 +79,7 @@ namespace AutoPDF
             {
                 return new OptionsValidationResult(false, "Destination directory does not exist: " + Destination);
             }
-            if (UseZipFile && !Directory.Exists(Path.GetDirectoryName(Destination)))
+            if (UseZipFile && !Directory.Exists(Path.GetDirectoryName(DestinationDirectory)))
             {
                 return new OptionsValidationResult(false, "Destination directory does not exist: " + Path.GetDirectoryName(Destination));
             }
