@@ -81,6 +81,7 @@
     <Compile Include="Form.cs" />
     <Compile Include="IInputParser.cs" />
     <Compile Include="OptionsValidationResult.cs" />
+    <Compile Include="PATSFileNameGenerator.cs" />
     <Compile Include="PATSInputParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
