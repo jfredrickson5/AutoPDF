@@ -30,9 +30,21 @@ namespace AutoPDF
                 Directory.CreateDirectory(outputDirectory);
             }
 
+            var pluginManager = PluginManager.Instance;
+
             var filler = String.IsNullOrEmpty(options.Delimiter) ?
                 new Filler(options.TemplateFile, options.InputFile, outputDirectory) :
                 new Filler(options.TemplateFile, options.InputFile, outputDirectory, options.Delimiter);
+
+            if (pluginManager.InputParserPlugins.Count > 0)
+            {
+                filler.InputParser = pluginManager.InputParserPlugins[0];
+            }
+            if (pluginManager.FileNameGeneratorPlugins.Count > 0)
+            {
+                filler.FileNameGenerator = pluginManager.FileNameGeneratorPlugins[0];
+            }
+
             filler.Fill();
             
             if (options.UseZipFile)

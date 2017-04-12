@@ -8,9 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>AutoPDF</RootNamespace>
     <AssemblyName>AutoPDF</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -74,13 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultFileNameGenerator.cs" />
-    <Compile Include="IFileNameGenerator.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="DefaultInputParser.cs" />
     <Compile Include="Filler.cs" />
     <Compile Include="Form.cs" />
-    <Compile Include="IInputParser.cs" />
     <Compile Include="OptionsValidationResult.cs" />
+    <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +99,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoPDF.Plugin\AutoPDF.Plugin.csproj">
+      <Project>{da01dcd5-f2a5-40ec-8f1a-07ea45abf14c}</Project>
+      <Name>AutoPDF.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
