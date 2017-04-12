@@ -7,6 +7,21 @@ namespace AutoPDF
 {
     class Options
     {
+        private static Options _Instance;
+        public static Options Instance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new Options();
+                }
+                return _Instance;
+            }
+        }
+
+        private Options() { }
+
         [HelpOption]
         public string Usage()
         {
@@ -27,6 +42,9 @@ namespace AutoPDF
 
         [Option('d', "delimiter", Required = false, HelpText = "Delimiter used in the input file (default: autodetect)")]
         public string Delimiter { get; set; }
+
+        [Option('v', "verbose", Required = false, HelpText = "Show additional information during processing")]
+        public bool Verbose { get; set; }
         
         [ValueOption(0)]
         public string TemplateFile { get; set; }

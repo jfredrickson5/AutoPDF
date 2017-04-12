@@ -59,10 +59,13 @@ namespace AutoPDF
                     var form = new Form(TemplateFile);
                     foreach (var fieldName in FieldNames)
                     {
-                        var parsedValue = InputParser.ParseValue(fieldName, csv.GetField(fieldName));
+                        var fieldValue = csv.GetField(fieldName);
+                        var parsedValue = InputParser.ParseValue(fieldName, fieldValue);
+                        Logger.Log(LogLevel.Info, "Parsed value [" + fieldValue + "] as [" + parsedValue + "]");
                         form.Fields.Add(fieldName, parsedValue);
                     }
                     var fileName = FileNameGenerator.GenerateFileName(form.Fields, index, NumRecords, TemplateFile, InputFile);
+                    Logger.Log(LogLevel.Info, "Writing to: " + fileName);
                     using (var file = new FileStream(Path.Combine(OutputDirectory, fileName), FileMode.Create))
                     {
                         form.GetStream().WriteTo(file);
@@ -86,6 +89,7 @@ namespace AutoPDF
                     bestCandidateCount = count;
                 }
             }
+            Logger.Log(LogLevel.Info, "Automatically detected delimiter: " + bestCandidate);
             return bestCandidate;
         }
     }

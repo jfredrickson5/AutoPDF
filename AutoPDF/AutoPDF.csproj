@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultFileNameGenerator.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="DefaultInputParser.cs" />
     <Compile Include="Filler.cs" />
