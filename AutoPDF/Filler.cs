@@ -61,7 +61,7 @@ namespace AutoPDF
                         var parsedValue = InputParser.ParseValue(fieldName, csv.GetField(fieldName));
                         form.Fields.Add(fieldName, parsedValue);
                     }
-                    var fileName = FileNameGenerator.GenerateFileName(form, index, NumRecords, TemplateFile, InputFile);
+                    var fileName = FileNameGenerator.GenerateFileName(form.Fields, index, NumRecords, TemplateFile, InputFile);
                     using (var file = new FileStream(Path.Combine(OutputDirectory, fileName), FileMode.Create))
                     {
                         form.GetStream().WriteTo(file);
