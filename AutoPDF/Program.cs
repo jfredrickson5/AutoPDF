@@ -11,7 +11,6 @@ namespace AutoPDF
             var options = Options.Instance;
             if (!CommandLine.Parser.Default.ParseArguments(args, options))
             {
-                Console.WriteLine(options.Usage());
                 Environment.Exit(1);
             }
             var customValidation = options.Validate();
