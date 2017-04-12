@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AutoPDF.Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:AutoPDF.Plugin.IFileNameGenerator">
+            <summary>
+            Implemented by plugins that generate an output file name for completed PDF forms.
+            </summary>
+        </member>
+        <member name="M:AutoPDF.Plugin.IFileNameGenerator.GenerateFileName(System.Collections.Generic.IDictionary{System.String,System.Object},System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Generates an output file name for a completed PDF form.
+            </summary>
+            <param name="formFields">A dictionary of form field names and values from input data</param>
+            <param name="currentIndex">An index representing the current input data record number</param>
+            <param name="numRecords">The total number of input data records</param>
+            <param name="templateFile">The file name of the PDF template file</param>
+            <param name="inputFile">The file name of the input data file</param>
+            <returns>A file name that can be used to save the completed form</returns>
+        </member>
+        <member name="T:AutoPDF.Plugin.IInputParser">
+            <summary>
+            Implemented by plugins that parse incoming records from an input data file.
+            </summary>
+        </member>
+        <member name="M:AutoPDF.Plugin.IInputParser.ParseValue(System.String,System.String)">
+            <summary>
+            Takes a field name and field value, and returns a parsed value.
+            </summary>
+            <param name="fieldName">Name of the form field</param>
+            <param name="fieldValue">Value of the form field from input data</param>
+            <returns>A parsed value</returns>
+        </member>
+    </members>
+</doc>

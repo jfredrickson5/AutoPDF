@@ -1,4 +1,6 @@
-﻿namespace AutoPDF
+﻿using AutoPDF.Plugin;
+
+namespace AutoPDF
 {
     class DefaultInputParser : IInputParser
     {
