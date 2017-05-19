@@ -28,12 +28,14 @@ namespace AutoPDF
             var appName = AppDomain.CurrentDomain.FriendlyName;
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var version = System.Reflection.AssemblyName.GetAssemblyName(assembly.Location).Version.ToString();
+            var pluginList = PluginManager.Instance.PluginsString();
 
             var helpText = new HelpText
             {
                 Heading = new HeadingInfo("AutoPDF", version),
                 AddDashesToOption = true
             };
+            helpText.AddPreOptionsLine("Active plugins: " + pluginList);
             helpText.AddPreOptionsLine("Usage: " + appName + " TEMPLATEFILE INPUTFILE DESTINATION [options]");
             helpText.AddOptions(this);
 

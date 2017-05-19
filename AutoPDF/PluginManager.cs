@@ -43,6 +43,20 @@ namespace AutoPDF
             InputParserPlugins = new List<IInputParser>();
             LoadPlugins();
         }
+
+        public string PluginsString()
+        {
+            var output = "";
+            foreach (var fileNamePlugin in FileNameGeneratorPlugins)
+            {
+                output += " " + fileNamePlugin.GetType().Name;
+            }
+            foreach (var inputParserPlugin in InputParserPlugins)
+            {
+                output += " " + inputParserPlugin.GetType().Name;
+            }
+            return output.Trim();
+        }
         
         private string[] FindLibraries()
         {
