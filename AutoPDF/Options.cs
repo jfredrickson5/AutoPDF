@@ -29,6 +29,7 @@ namespace AutoPDF
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var version = System.Reflection.AssemblyName.GetAssemblyName(assembly.Location).Version.ToString();
             var pluginList = PluginManager.Instance.PluginsString();
+            if (pluginList.Length == 0) pluginList = "(none)";
 
             var helpText = new HelpText
             {
