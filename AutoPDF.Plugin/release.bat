@@ -1,2 +1,2 @@
 ﻿@echo off
-msbuild /t:pack /p:Configuration=Release
+dotnet pack -c Release
